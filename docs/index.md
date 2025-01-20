@@ -3,9 +3,7 @@
 Hello! I'm glad you're here. This is the place where I share my projects, ideas, and anything else I'm working on. Feel free to explore and reach out if you have any questions or suggestions.
 
 ### Projects
-- **Project 1**: Description of project 1.
-- **Project 2**: Description of project 2.
-- **Project 3**: Description of project 3.
+- **IIA1319**: Software Development
 
 ### About Me
 A brief introduction about yourself, your interests, and your background.
