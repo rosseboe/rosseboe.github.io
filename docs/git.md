@@ -26,6 +26,8 @@ git add DAQsimulator/
 # git commit
 git commit -m "docs: added git tips&trics"
 
+# Display commit history
+git log
 
 
 ```
