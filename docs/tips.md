@@ -11,7 +11,7 @@ curl -s icanhazip.com
 hostname -I
 
 # Get hostname
-hostname -I
+hostname
 
 
 ``` 
