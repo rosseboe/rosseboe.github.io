@@ -2,7 +2,7 @@
 
 ## Linux command lines
 
-```bash 
+``` bash 
 
 # Get external ip
 curl -s icanhazip.com
