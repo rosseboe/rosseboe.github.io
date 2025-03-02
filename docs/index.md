@@ -9,6 +9,6 @@ Hello! I'm glad you're here. This is the place where I share my projects, ideas,
 A brief introduction about yourself, your interests, and your background.
 
 ### Contact
-You can reach me at [your-email@example.com](mailto:your-email@example.com) or follow me on [Twitter](https://twitter.com/yourusername).
+You can reach me at [your-email@example.com](mailto:your-email@example.com) or follow me on [Mastodon](https://social.vivaldi.net/@jarro) 
 
 Thank you for visiting!
