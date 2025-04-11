@@ -64,3 +64,10 @@ You can verify the contents of your certificate with:
 ```bash
 openssl x509 -in certificate.crt -text -noout
 ```
+
+### Convert CRT to DER
+If your .crt file is in PEM format and you want to convert it to DER format, you can use the following command:
+
+```bash
+openssl x509 -in certificate.crt -outform der -out certificate.der
+```
