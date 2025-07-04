@@ -13,6 +13,8 @@ hostname -I
 # Get hostname
 hostname
 
+# To list all services, regardless of their state:
+systemctl list-units --type=service --all
 
 ``` 
 
