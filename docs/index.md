@@ -4,9 +4,10 @@ Hello! I'm glad you're here. This is the place where I share my projects, ideas,
 
 ### Projects
 - **IIA1319**: Software Development
+- **IIA3220**: Internet of Things
 
 ### About Me
-A brief introduction about yourself, your interests, and your background.
+A brief introduction about myself, my interests, and my background.
 
 ### Contact
 You can reach me at [your-email@example.com](mailto:your-email@example.com) or follow me on [Mastodon](https://social.vivaldi.net/@jarro) 
