@@ -73,3 +73,8 @@ If your .crt file is in PEM format and you want to convert it to DER format, you
 ```bash
 openssl x509 -in certificate.crt -outform der -out certificate.der
 ```
+
+
+# Ubuntu Server and VNC
+
+Follow this to set up TigerVNC: https://linuxconfig.org/vnc-server-on-ubuntu-20-04-focal-fossa-linux
