@@ -108,6 +108,26 @@ A simple interactive simulation of a **first-order process**, an **actuator** wi
   .btn-start  { background: #4caf50; color: #fff; }
   .btn-stop   { background: #e53935; color: #fff; }
   .btn-reset  { background: #757575; color: #fff; }
+  .btn-tune   { background: #7b1fa2; color: #fff; }
+  .tune-select {
+    padding: 0.4rem 0.6rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    background: var(--md-default-bg-color, #fff);
+    color: var(--md-default-fg-color, #000);
+    cursor: pointer;
+  }
+  .tune-result {
+    display: none;
+    margin-top: 0.6rem;
+    padding: 0.5rem 0.75rem;
+    background: rgba(123,31,162,0.08);
+    border-left: 3px solid #7b1fa2;
+    border-radius: 4px;
+    font-size: 0.82rem;
+    line-height: 1.6;
+  }
   .pid-chart-wrap {
     position: relative;
     height: 280px;
@@ -189,6 +209,15 @@ A simple interactive simulation of a **first-order process**, an **actuator** wi
         <input type="number" id="n-kd" min="0" max="10" step="0.01" value="0.05"
                oninput="document.getElementById('sl-kd').value=Math.min(2,this.value)">
       </div>
+      <div class="param-row" style="margin-top:0.75rem;">
+        <label>Auto-tune method</label>
+        <select class="tune-select" id="tune-method">
+          <option value="simc">SIMC (recommended)</option>
+          <option value="zn">Ziegler-Nichols OL</option>
+        </select>
+        <button class="pid-btn btn-tune" onclick="pidAutoTune()">&#9881; Tune</button>
+      </div>
+      <div class="tune-result" id="tune-result"></div>
     </div>
 
     <!-- Process Model -->
@@ -438,6 +467,66 @@ A simple interactive simulation of a **first-order process**, an **actuator** wi
     document.getElementById('btnStop').disabled  = true;
   };
 
+  // ── Auto-tuner ────────────────────────────────────────────────────────────
+  window.pidAutoTune = function () {
+    const K   = Math.max(0.001, v('n-pg'));  // process gain
+    const tau = Math.max(0.1,   v('n-tau')); // time constant
+    const th  = Math.max(0,     v('n-dt'));  // dead time
+    const method = document.getElementById('tune-method').value;
+
+    let Kp, Ki, Kd, label;
+
+    if (method === 'simc') {
+      // SIMC (Skogestad IMC) — tight setting: τc = max(0.1τ, 0.8θ)
+      const tc = Math.max(0.1 * tau, 0.8 * th || 0.1 * tau);
+      Kp = (1 / K) * (tau / (tc + th));
+      const Ti = Math.min(tau, 4 * (tc + th));
+      const Td = th / 2;
+      Ki = Kp / Ti;
+      Kd = Kp * Td;
+      label = `SIMC  (τc = ${tc.toFixed(2)} s)`;
+    } else {
+      // Ziegler-Nichols open-loop (requires dead time > 0)
+      if (th < 0.01) {
+        document.getElementById('tune-result').style.display = 'block';
+        document.getElementById('tune-result').innerHTML =
+          '&#9888; Ziegler-Nichols requires dead time &theta; &gt; 0. Set &theta; &ge; 1 s and try again.';
+        return;
+      }
+      Kp = (1.2 / K) * (tau / th);
+      const Ti = 2 * th;
+      const Td = 0.5 * th;
+      Ki = Kp / Ti;
+      Kd = Kp * Td;
+      label = 'Ziegler-Nichols OL';
+    }
+
+    // Round to 3 decimal places
+    Kp = Math.round(Kp * 1000) / 1000;
+    Ki = Math.round(Ki * 1000) / 1000;
+    Kd = Math.round(Kd * 1000) / 1000;
+
+    // Apply to controls
+    function setParam(sliderId, numberId, val, lo, hi) {
+      const clamped = Math.min(hi, Math.max(lo, val));
+      document.getElementById(numberId).value = val;   // allow wider range in number
+      document.getElementById(sliderId).value = clamped;
+    }
+    setParam('sl-kp', 'n-kp', Kp, 0, 5);
+    setParam('sl-ki', 'n-ki', Ki, 0, 2);
+    setParam('sl-kd', 'n-kd', Kd, 0, 2);
+
+    // Reset integrator state so new parameters take effect cleanly
+    integral = 0; prevError = 0;
+
+    const res = document.getElementById('tune-result');
+    res.style.display = 'block';
+    res.innerHTML = `<strong>${label}</strong><br>
+      Kp = <strong>${Kp}</strong> &nbsp;|
+      Ki = <strong>${Ki}</strong> &nbsp;|
+      Kd = <strong>${Kd}</strong>`;
+  };
+
   window.pidReset = function () {
     pidStop();
     simTime = 0; pv = 0; integral = 0; prevError = 0; prevCO = 0;
@@ -462,6 +551,8 @@ A simple interactive simulation of a **first-order process**, an **actuator** wi
 | **PID Controller** | Standard parallel form: $u = K_p e + K_i \int e \, dt + K_d \dot{e}$, with **anti-windup** (conditional integration) |
 | **Actuator** | Output **rate limiter** (max %/s) followed by a hard **saturation clamp** (min/max %) |
 | **Process** | First-order lag: $\tau \dot{x} = K_{proc} \cdot u_{delayed} - x$, with configurable **dead time θ** |
+| **SIMC auto-tune** | $\tau_c = \max(0.1\tau,\, 0.8\theta)$, then $K_p = \frac{1}{K}\frac{\tau}{\tau_c+\theta}$, $T_i = \min(\tau,\, 4(\tau_c+\theta))$, $T_d = \theta/2$ |
+| **ZN OL auto-tune** | $K_p = \frac{1.2}{K}\frac{\tau}{\theta}$, $T_i = 2\theta$, $T_d = 0.5\theta$ (requires $\theta > 0$) |
 
 ### Tips for tuning
 
