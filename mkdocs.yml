@@ -5,3 +5,15 @@ theme:
  
   features:
     - content.code.copy
+
+nav:
+  - Home: index.md
+  - PID Simulator: pid_simulator.md
+  - Arduino: arduino.md
+  - Git: git.md
+  - IIA1319: IIA1319.md
+  - IIA3220: IIA3220.md
+  - Tips: tips.md
+
+markdown_extensions:
+  - attr_list
