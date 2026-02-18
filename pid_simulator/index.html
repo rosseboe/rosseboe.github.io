@@ -1,0 +1,1154 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://rosseboe.github.io/pid_simulator/">
+      
+      
+        <link rel="prev" href="..">
+      
+      
+        <link rel="next" href="../arduino/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+    
+    
+      
+        <title>PID Simulator - My GitHub Pages</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#pid-controller-simulator" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="My GitHub Pages" class="md-header__button md-logo" aria-label="My GitHub Pages" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            My GitHub Pages
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              PID Simulator
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="My GitHub Pages" class="md-nav__button md-logo" aria-label="My GitHub Pages" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    My GitHub Pages
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PID Simulator
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PID Simulator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#how-it-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How it works
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="How it works">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#tips-for-tuning" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tips for tuning
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../arduino/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Arduino
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../git/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Git
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../IIA1319/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    IIA1319
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../IIA3220/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    IIA3220
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tips/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tips
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#how-it-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How it works
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="How it works">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#tips-for-tuning" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tips for tuning
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="pid-controller-simulator">PID Controller Simulator</h1>
+<p>A simple interactive simulation of a <strong>first-order process</strong>, an <strong>actuator</strong> with output saturation, and a <strong>PID controller</strong>. Tune the controller parameters and observe how the process responds.</p>
+<hr />
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
+
+<style>
+  .pid-app {
+    font-family: inherit;
+    background: var(--md-default-bg-color, #fff);
+    padding: 0;
+  }
+  .pid-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+  @media (max-width: 600px) {
+    .pid-grid { grid-template-columns: 1fr; }
+  }
+  .pid-card {
+    background: var(--md-code-bg-color, #f5f5f5);
+    border-radius: 8px;
+    padding: 1rem;
+  }
+  .pid-card h3 {
+    margin: 0 0 0.75rem 0;
+    font-size: 0.95rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--md-primary-fg-color, #1976d2);
+    border-bottom: 1px solid var(--md-primary-fg-color, #1976d2);
+    padding-bottom: 0.4rem;
+  }
+  .param-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.5rem;
+    gap: 0.5rem;
+  }
+  .param-row label {
+    width: 130px;
+    font-size: 0.85rem;
+    flex-shrink: 0;
+  }
+  .param-row input[type=range] {
+    flex: 1;
+    accent-color: var(--md-primary-fg-color, #1976d2);
+  }
+  .param-row input[type=number] {
+    width: 72px;
+    padding: 2px 4px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    background: var(--md-default-bg-color, #fff);
+    color: var(--md-default-fg-color, #000);
+  }
+  .pid-gauges {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+  }
+  .gauge-box {
+    flex: 1;
+    min-width: 100px;
+    background: var(--md-code-bg-color, #f5f5f5);
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    text-align: center;
+  }
+  .gauge-box .gauge-label {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    opacity: 0.7;
+  }
+  .gauge-box .gauge-value {
+    font-size: 1.6rem;
+    font-weight: 700;
+    line-height: 1.2;
+  }
+  .gauge-pv  .gauge-value { color: #2196f3; }
+  .gauge-sp  .gauge-value { color: #ff9800; }
+  .gauge-co  .gauge-value { color: #4caf50; }
+  .gauge-err .gauge-value { color: #e53935; }
+  .pid-btn-row {
+    display: flex;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .pid-btn {
+    padding: 0.45rem 1.2rem;
+    border: none;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    font-weight: 600;
+    transition: opacity 0.15s;
+  }
+  .pid-btn:hover { opacity: 0.85; }
+  .btn-start  { background: #4caf50; color: #fff; }
+  .btn-stop   { background: #e53935; color: #fff; }
+  .btn-reset  { background: #757575; color: #fff; }
+  .btn-tune   { background: #7b1fa2; color: #fff; }
+  .tune-select {
+    padding: 0.4rem 0.6rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    background: var(--md-default-bg-color, #fff);
+    color: var(--md-default-fg-color, #000);
+    cursor: pointer;
+  }
+  .tune-result {
+    display: none;
+    margin-top: 0.6rem;
+    padding: 0.5rem 0.75rem;
+    background: rgba(123,31,162,0.08);
+    border-left: 3px solid #7b1fa2;
+    border-radius: 4px;
+    font-size: 0.82rem;
+    line-height: 1.6;
+  }
+  .pid-chart-wrap {
+    position: relative;
+    height: 280px;
+  }
+</style>
+
+<div class="pid-app">
+
+  <!-- Live value gauges -->
+  <div class="pid-gauges">
+    <div class="gauge-box gauge-pv">
+      <div class="gauge-label">Process Value (PV)</div>
+      <div class="gauge-value" id="g-pv">0.0</div>
+    </div>
+    <div class="gauge-box gauge-sp">
+      <div class="gauge-label">Setpoint (SP)</div>
+      <div class="gauge-value" id="g-sp">50.0</div>
+    </div>
+    <div class="gauge-box gauge-co">
+      <div class="gauge-label">Control Output (CO)</div>
+      <div class="gauge-value" id="g-co">0.0</div>
+    </div>
+    <div class="gauge-box gauge-err">
+      <div class="gauge-label">Error (SP–PV)</div>
+      <div class="gauge-value" id="g-err">50.0</div>
+    </div>
+  </div>
+
+  <!-- Trend chart -->
+  <div class="pid-chart-wrap">
+    <canvas id="pidChart"></canvas>
+  </div>
+
+  <br>
+
+  <!-- Controls -->
+  <div class="pid-btn-row">
+    <button class="pid-btn btn-start" id="btnStart" onclick="pidStart()">&#9654; Start</button>
+    <button class="pid-btn btn-stop"  id="btnStop"  onclick="pidStop()"  disabled>&#9646;&#9646; Stop</button>
+    <button class="pid-btn btn-reset"               onclick="pidReset()">&#8635; Reset</button>
+    <span style="flex:1;"></span>
+    <select id="tune-method" class="tune-select">
+      <option value="simc">SIMC</option>
+      <option value="zn">Ziegler-Nichols OL</option>
+    </select>
+    <button class="pid-btn btn-tune" id="btnTune">&#9881; Auto-Tune</button>
+    <span id="sim-time-label" style="font-size:0.85rem;opacity:0.7;">t = 0 s</span>
+  </div>
+  <div class="tune-result" id="tune-result"></div>
+
+  <div class="pid-grid">
+
+    <!-- Setpoint -->
+    <div class="pid-card">
+      <h3>Setpoint</h3>
+      <div class="param-row">
+        <label>SP (0–100)</label>
+        <input type="range" id="sl-sp" min="0" max="100" step="1" value="50"
+               oninput="document.getElementById('n-sp').value=this.value">
+        <input type="number" id="n-sp" min="0" max="100" step="1" value="50"
+               oninput="document.getElementById('sl-sp').value=this.value">
+      </div>
+    </div>
+
+    <!-- PID Parameters -->
+    <div class="pid-card">
+      <h3>PID Parameters</h3>
+      <div class="param-row">
+        <label>Kp (gain)</label>
+        <input type="range" id="sl-kp" min="0" max="5" step="0.05" value="1.2"
+               oninput="document.getElementById('n-kp').value=this.value">
+        <input type="number" id="n-kp" min="0" max="20" step="0.05" value="1.2"
+               oninput="document.getElementById('sl-kp').value=Math.min(5,this.value)">
+      </div>
+      <div class="param-row">
+        <label>Ki (integral)</label>
+        <input type="range" id="sl-ki" min="0" max="2" step="0.01" value="0.3"
+               oninput="document.getElementById('n-ki').value=this.value">
+        <input type="number" id="n-ki" min="0" max="10" step="0.01" value="0.3"
+               oninput="document.getElementById('sl-ki').value=Math.min(2,this.value)">
+      </div>
+      <div class="param-row">
+        <label>Kd (derivative)</label>
+        <input type="range" id="sl-kd" min="0" max="2" step="0.01" value="0.05"
+               oninput="document.getElementById('n-kd').value=this.value">
+        <input type="number" id="n-kd" min="0" max="10" step="0.01" value="0.05"
+               oninput="document.getElementById('sl-kd').value=Math.min(2,this.value)">
+      </div>
+    </div>
+
+    <!-- Process Model -->
+    <div class="pid-card">
+      <h3>Process Model</h3>
+      <div class="param-row">
+        <label>Gain (Kprocess)</label>
+        <input type="range" id="sl-pg" min="0.1" max="3" step="0.05" value="1.0"
+               oninput="document.getElementById('n-pg').value=this.value">
+        <input type="number" id="n-pg" min="0.1" max="10" step="0.05" value="1.0"
+               oninput="document.getElementById('sl-pg').value=Math.min(3,this.value)">
+      </div>
+      <div class="param-row">
+        <label>Time constant τ (s)</label>
+        <input type="range" id="sl-tau" min="1" max="60" step="1" value="10"
+               oninput="document.getElementById('n-tau').value=this.value">
+        <input type="number" id="n-tau" min="1" max="120" step="1" value="10"
+               oninput="document.getElementById('sl-tau').value=Math.min(60,this.value)">
+      </div>
+      <div class="param-row">
+        <label>Dead time θ (s)</label>
+        <input type="range" id="sl-dt" min="0" max="20" step="1" value="2"
+               oninput="document.getElementById('n-dt').value=this.value">
+        <input type="number" id="n-dt" min="0" max="60" step="1" value="2"
+               oninput="document.getElementById('sl-dt').value=Math.min(20,this.value)">
+      </div>
+    </div>
+
+    <!-- Actuator -->
+    <div class="pid-card">
+      <h3>Actuator</h3>
+      <div class="param-row">
+        <label>Output min (%)</label>
+        <input type="range" id="sl-amin" min="-100" max="0" step="1" value="0"
+               oninput="document.getElementById('n-amin').value=this.value">
+        <input type="number" id="n-amin" min="-100" max="100" step="1" value="0"
+               oninput="document.getElementById('sl-amin').value=Math.max(-100,this.value)">
+      </div>
+      <div class="param-row">
+        <label>Output max (%)</label>
+        <input type="range" id="sl-amax" min="0" max="200" step="1" value="100"
+               oninput="document.getElementById('n-amax').value=this.value">
+        <input type="number" id="n-amax" min="0" max="200" step="1" value="100"
+               oninput="document.getElementById('sl-amax').value=Math.min(200,this.value)">
+      </div>
+      <div class="param-row">
+        <label>Rate limit (%/s)</label>
+        <input type="range" id="sl-rate" min="1" max="100" step="1" value="50"
+               oninput="document.getElementById('n-rate').value=this.value">
+        <input type="number" id="n-rate" min="1" max="500" step="1" value="50"
+               oninput="document.getElementById('sl-rate').value=Math.min(100,this.value)">
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+(function () {
+  // ── Simulation state ─────────────────────────────────────────────────────
+  const DT     = 0.1;   // simulation time step (s)
+  const WINDOW = 120;   // seconds of history shown in chart
+  const MAX_PTS = Math.round(WINDOW / DT);
+
+  let simTimer  = null;
+  let simTime   = 0;
+  let pv        = 0;
+  let integral  = 0;
+  let prevError = 0;
+  let prevCO    = 0;
+
+  // Dead-time buffer
+  let deadBuf   = [];
+  let deadSteps = 0;
+
+  // Chart data arrays  (ring-buffer approach — keep last MAX_PTS)
+  const labels = [];
+  const dataPV = [];
+  const dataSP = [];
+  const dataCO = [];
+
+  // ── Helpers ──────────────────────────────────────────────────────────────
+  function v(id)   { return parseFloat(document.getElementById(id).value); }
+  function fmt(x)  { return x.toFixed(1); }
+  function clamp(x, lo, hi) { return Math.max(lo, Math.min(hi, x)); }
+
+  // ── Chart setup ──────────────────────────────────────────────────────────
+  const ctx  = document.getElementById('pidChart').getContext('2d');
+  const chart = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: labels,
+      datasets: [
+        {
+          label: 'PV – Process Value',
+          data: dataPV,
+          borderColor: '#2196f3',
+          backgroundColor: 'rgba(33,150,243,0.08)',
+          borderWidth: 2,
+          pointRadius: 0,
+          tension: 0.3,
+          fill: false,
+          yAxisID: 'y',
+        },
+        {
+          label: 'SP – Setpoint',
+          data: dataSP,
+          borderColor: '#ff9800',
+          backgroundColor: 'transparent',
+          borderWidth: 2,
+          borderDash: [6, 3],
+          pointRadius: 0,
+          tension: 0,
+          fill: false,
+          yAxisID: 'y',
+        },
+        {
+          label: 'CO – Control Output',
+          data: dataCO,
+          borderColor: '#4caf50',
+          backgroundColor: 'rgba(76,175,80,0.06)',
+          borderWidth: 2,
+          pointRadius: 0,
+          tension: 0.3,
+          fill: false,
+          yAxisID: 'y2',
+        },
+      ],
+    },
+    options: {
+      animation: false,
+      responsive: true,
+      maintainAspectRatio: false,
+      interaction: { mode: 'index', intersect: false },
+      plugins: {
+        legend: { position: 'top', labels: { usePointStyle: true, boxWidth: 10, padding: 14 } },
+        tooltip: {
+          callbacks: {
+            label: ctx => `${ctx.dataset.label}: ${ctx.parsed.y.toFixed(2)}`
+          }
+        }
+      },
+      scales: {
+        x: {
+          title: { display: true, text: 'Time (s)' },
+          ticks: { maxTicksLimit: 10, maxRotation: 0 },
+        },
+        y: {
+          title: { display: true, text: 'PV / SP' },
+          min: -10, max: 110,
+          position: 'left',
+        },
+        y2: {
+          title: { display: true, text: 'CO (%)' },
+          min: -10, max: 110,
+          position: 'right',
+          grid: { drawOnChartArea: false },
+        },
+      },
+    },
+  });
+
+  // ── Simulation step ───────────────────────────────────────────────────────
+  function step() {
+    simTime += DT;
+
+    const sp       = v('n-sp');
+    const Kp       = v('n-kp');
+    const Ki       = v('n-ki');
+    const Kd       = v('n-kd');
+    const Kproc    = v('n-pg');
+    const tau      = Math.max(0.1, v('n-tau'));
+    const deadTime = Math.max(0, v('n-dt'));
+    const aMin     = v('n-amin');
+    const aMax     = v('n-amax');
+    const rateMax  = v('n-rate');
+
+    // ── PID ──────────────────────────────────────────────────────────────
+    const error  = sp - pv;
+    integral    += error * DT;
+    const deriv  = (error - prevError) / DT;
+    prevError    = error;
+
+    let rawCO = Kp * error + Ki * integral + Kd * deriv;
+
+    // Anti-windup: if CO saturated, stop integrating in that direction
+    const satCO = clamp(rawCO, aMin, aMax);
+    if (rawCO !== satCO) {
+      integral -= error * DT;   // undo last integration
+    }
+
+    // ── Actuator: rate limiting then saturation ───────────────────────────
+    const maxDelta = rateMax * DT;
+    let co = prevCO + clamp(satCO - prevCO, -maxDelta, maxDelta);
+    co = clamp(co, aMin, aMax);
+    prevCO = co;
+
+    // ── Dead-time buffer ──────────────────────────────────────────────────
+    const newDeadSteps = Math.round(deadTime / DT);
+    if (newDeadSteps !== deadSteps) {
+      deadSteps = newDeadSteps;
+      if (deadBuf.length > deadSteps + 1) deadBuf = deadBuf.slice(-(deadSteps + 1));
+    }
+    deadBuf.push(co);
+    const delayedCO = deadBuf.length > deadSteps ? deadBuf[deadBuf.length - 1 - deadSteps] : 0;
+
+    // ── First-order process: τ·ẋ = Kp·u − x  →  Euler ───────────────────
+    pv += (DT / tau) * (Kproc * delayedCO - pv);
+    pv  = Math.max(-200, Math.min(200, pv));
+
+    // ── Update chart data ─────────────────────────────────────────────────
+    const tLabel = simTime.toFixed(1);
+    labels.push(tLabel);
+    dataPV.push(parseFloat(pv.toFixed(2)));
+    dataSP.push(sp);
+    dataCO.push(parseFloat(co.toFixed(2)));
+
+    if (labels.length > MAX_PTS) {
+      labels.shift();
+      dataPV.shift();
+      dataSP.shift();
+      dataCO.shift();
+    }
+
+    chart.update('none');   // no animation for real-time feel
+
+    // ── Gauges ────────────────────────────────────────────────────────────
+    document.getElementById('g-pv').textContent  = fmt(pv);
+    document.getElementById('g-sp').textContent  = fmt(sp);
+    document.getElementById('g-co').textContent  = fmt(co);
+    document.getElementById('g-err').textContent = fmt(sp - pv);
+    document.getElementById('sim-time-label').textContent = `t = ${simTime.toFixed(1)} s`;
+  }
+
+  // ── Controls ─────────────────────────────────────────────────────────────
+  document.getElementById('btnTune').addEventListener('click', function () {
+    const K   = Math.max(0.001, v('n-pg'));
+    const tau = Math.max(0.1,   v('n-tau'));
+    const th  = Math.max(0,     v('n-dt'));
+    const method = document.getElementById('tune-method').value;
+    const res = document.getElementById('tune-result');
+    let Kp, Ki, Kd, label;
+
+    if (method === 'simc') {
+      const tc = Math.max(0.1 * tau, th > 0 ? 0.8 * th : 0.1 * tau);
+      Kp = (1 / K) * (tau / (tc + th));
+      const Ti = Math.min(tau, 4 * (tc + th));
+      const Td = th / 2;
+      Ki = Td > 0 ? Kp / Ti : 0;
+      Kd = Kp * Td;
+      label = 'SIMC  (τc = ' + tc.toFixed(2) + ' s)';
+    } else {
+      if (th < 0.01) {
+        res.style.display = 'block';
+        res.innerHTML = '&#9888; Ziegler-Nichols requires dead time θ &gt; 0. Set θ ≥ 1 s and try again.';
+        return;
+      }
+      Kp = (1.2 / K) * (tau / th);
+      Ki = Kp / (2 * th);
+      Kd = Kp * 0.5 * th;
+      label = 'Ziegler-Nichols OL';
+    }
+
+    Kp = Math.round(Kp * 1000) / 1000;
+    Ki = Math.round(Ki * 1000) / 1000;
+    Kd = Math.round(Kd * 1000) / 1000;
+
+    function setParam(sliderId, numberId, val, lo, hi) {
+      document.getElementById(numberId).value = val;
+      document.getElementById(sliderId).value = Math.min(hi, Math.max(lo, val));
+    }
+    setParam('sl-kp', 'n-kp', Kp, 0, 5);
+    setParam('sl-ki', 'n-ki', Ki, 0, 2);
+    setParam('sl-kd', 'n-kd', Kd, 0, 2);
+    integral = 0; prevError = 0;
+
+    res.style.display = 'block';
+    res.innerHTML = '<strong>' + label + '</strong> &nbsp;&mdash;&nbsp; Kp = <strong>' + Kp + '</strong> &nbsp;| Ki = <strong>' + Ki + '</strong> &nbsp;| Kd = <strong>' + Kd + '</strong>';
+  });
+
+  window.pidStart = function () {
+    if (simTimer) return;
+    simTimer = setInterval(step, DT * 1000);
+    document.getElementById('btnStart').disabled = true;
+    document.getElementById('btnStop').disabled  = false;
+  };
+
+  window.pidStop = function () {
+    clearInterval(simTimer);
+    simTimer = null;
+    document.getElementById('btnStart').disabled = false;
+    document.getElementById('btnStop').disabled  = true;
+  };
+
+  // ── Auto-tuner (handled via addEventListener above) ───────────────────────
+
+  window.pidReset = function () {
+    pidStop();
+    simTime = 0; pv = 0; integral = 0; prevError = 0; prevCO = 0;
+    deadBuf = []; deadSteps = 0;
+    labels.length = 0; dataPV.length = 0; dataSP.length = 0; dataCO.length = 0;
+    chart.update();
+    document.getElementById('g-pv').textContent  = '0.0';
+    document.getElementById('g-sp').textContent  = fmt(v('n-sp'));
+    document.getElementById('g-co').textContent  = '0.0';
+    document.getElementById('g-err').textContent = fmt(v('n-sp'));
+    document.getElementById('sim-time-label').textContent = 't = 0 s';
+  };
+})();
+</script>
+
+<hr />
+<h2 id="how-it-works">How it works</h2>
+<table>
+<thead>
+<tr>
+<th>Block</th>
+<th>Model</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>PID Controller</strong></td>
+<td>Standard parallel form: <span class="arithmatex">\(u = K_p e + K_i \int e \, dt + K_d \dot{e}\)</span>, with <strong>anti-windup</strong> (conditional integration)</td>
+</tr>
+<tr>
+<td><strong>Actuator</strong></td>
+<td>Output <strong>rate limiter</strong> (max %/s) followed by a hard <strong>saturation clamp</strong> (min/max %)</td>
+</tr>
+<tr>
+<td><strong>Process</strong></td>
+<td>First-order lag: <span class="arithmatex">\(\tau \dot{x} = K_{proc} \cdot u_{delayed} - x\)</span>, with configurable <strong>dead time θ</strong></td>
+</tr>
+<tr>
+<td><strong>SIMC auto-tune</strong></td>
+<td><span class="arithmatex">\(\tau_c = \max(0.1\tau,\, 0.8\theta)\)</span>, then <span class="arithmatex">\(K_p = \frac{1}{K}\frac{\tau}{\tau_c+\theta}\)</span>, <span class="arithmatex">\(T_i = \min(\tau,\, 4(\tau_c+\theta))\)</span>, <span class="arithmatex">\(T_d = \theta/2\)</span></td>
+</tr>
+<tr>
+<td><strong>ZN OL auto-tune</strong></td>
+<td><span class="arithmatex">\(K_p = \frac{1.2}{K}\frac{\tau}{\theta}\)</span>, <span class="arithmatex">\(T_i = 2\theta\)</span>, <span class="arithmatex">\(T_d = 0.5\theta\)</span> (requires <span class="arithmatex">\(\theta &gt; 0\)</span>)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="tips-for-tuning">Tips for tuning</h3>
+<ul>
+<li>Start with <strong>Ki = 0</strong> and <strong>Kd = 0</strong> and increase <strong>Kp</strong> until the response is fast but not too oscillatory.</li>
+<li>Add a small <strong>Ki</strong> to eliminate steady-state offset.</li>
+<li>Add a small <strong>Kd</strong> to reduce overshoot — watch out for noise amplification.</li>
+<li>Increase <strong>dead time θ</strong> and/or <strong>τ</strong> to make the process harder to control.</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["content.code.copy"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="../javascripts/mathjax.js"></script>
+      
+        <script src="https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>
